@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>16 Personalities 相性ナビ｜全組み合わせジャンプ</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <h1>16 Personalities 相性ナビ</h1>
+    <p class="subtitle">好きな2タイプを選ぶだけ。全組み合わせの相性をサクッとチェック！</p>
+  </div>
+</header>
+
+<main class="container">
+  <!-- Quick Picker -->
+  <section class="card">
+    <h2>すぐ調べる</h2>
+    <div class="picker">
+      <label>タイプA
+        <select id="typeA" aria-label="タイプA選択"></select>
+      </label>
+      <span class="x">×</span>
+      <label>タイプB
+        <select id="typeB" aria-label="タイプB選択"></select>
+      </label>
+      <button id="goBtn" class="btn">相性を見る</button>
+    </div>
+    <p class="note">ヒント：URLの最後に <code>#ENFP-INTJ</code> みたいに入れると、その相性に直接とべるよ。</p>
+  </section>
+
+  <!-- Matrix -->
+  <section class="card" id="top">
+    <h2>全タイプ表（押すと下に解説が出るよ）</h2>
+    <div class="matrix" role="table" aria-label="16 Personalities 相性表">
+      <div class="matrix-row matrix-head" role="row">
+        <div class="corner" role="columnheader" aria-label="corner"></div>
+        <!-- column headers injected -->
+      </div>
+      <!-- rows injected -->
+    </div>
+    <details class="legend">
+      <summary>色の意味</summary>
+      <ul>
+        <li><span class="chip chip-sim"></span> すごく似てる（3〜4コ一致）</li>
+        <li><span class="chip chip-bal"></span> ほどよく似てる（2コ一致）</li>
+        <li><span class="chip chip-comp"></span> 真逆っぽいけど補い合える（0〜1コ一致）</li>
+      </ul>
+    </details>
+  </section>
+
+  <!-- Detail -->
+  <section id="detail" class="card">
+    <h2 id="pairTitle">相性の解説</h2>
+    <div id="pairMeta" class="pair-meta"></div>
+    <div id="analysis" class="analysis"></div>
+    <div id="tips" class="tips"></div>
+
+    <!-- シェアボタン -->
+    <div id="shareArea" style="margin-top:20px;display:none;">
+      <a id="twitterShare" target="_blank" rel="noopener" class="btn"
+         style="background:#1DA1F2;box-shadow:0 4px 12px rgba(29,155,240,.3);">
+        🐦 この相性をX(Twitter)でシェア
+      </a>
+    </div>
+
+    <div class="backlink">
+      <a href="#top" aria-label="トップへ戻る">↑ 相性表にもどる</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <small>© 2025 16 Personalities 相性ナビ（非公式・自己理解サポート用）</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const TYPES = [
+    "INTJ","INTP","ENTJ","ENTP",
+    "INFJ","INFP","ENFJ","ENFP",
+    "ISTJ","ISFJ","ESTJ","ESFJ",
+    "ISTP","ISFP","ESTP","ESFP"
+  ];
+
+  // やさしめ表現用
+  const niceLabel = {
+    EI: "元気の向き（ひとり好き/みんな好き）",
+    SN: "情報の集め方（事実重視/ひらめき重視）",
+    TF: "決め方（理詰め/気持ち）",
+    JP: "予定の立て方（きっちり/ゆるっと）"
+  };
+
+  const container = document.querySelector('.matrix');
+  const headRow = container.querySelector('.matrix-head');
+  const typeA = document.getElementById('typeA');
+  const typeB = document.getElementById('typeB');
+  const goBtn = document.getElementById('goBtn');
+
+  // ドロップダウン作成
+  TYPES.forEach(t => {
+    typeA.append(new Option(t, t));
+    typeB.append(new Option(t, t));
+  });
+  typeA.value = "ENFP";
+  typeB.value = "INTJ";
+
+  // クリックでハッシュ更新＋スクロール
+  goBtn.addEventListener('click', () => {
+    location.hash = `${typeA.value}-${typeB.value}`;
+  });
+
+  // ヘッダー生成
+  const headFrag = document.createDocumentFragment();
+  TYPES.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'matrix-headcell';
+    d.setAttribute('role','columnheader');
+    d.innerHTML = `<span class="type">${t}</span>`;
+    headFrag.appendChild(d);
+  });
+  headRow.appendChild(headFrag);
+
+  // ユーティリティ
+  const matchCount = (a,b) => [...a].filter((ch,i) => ch===b[i]).length;
+  const levelClass = (a,b) => matchCount(a,b)>=3 ? 'cell-sim' : matchCount(a,b)===2 ? 'cell-bal' : 'cell-comp';
+  const linkFor = (a,b) => `#${a}-${b}`;
+
+  // 行生成
+  TYPES.forEach(rowType => {
+    const row = document.createElement('div');
+    row.className = 'matrix-row';
+    row.setAttribute('role','row');
+
+    const head = document.createElement('div');
+    head.className = 'matrix-sidehead';
+    head.setAttribute('role','rowheader');
+    head.innerHTML = `<span class="type">${rowType}</span>`;
+    row.appendChild(head);
+
+    TYPES.forEach(colType => {
+      const cell = document.createElement('a');
+      cell.href = linkFor(rowType, colType);
+      cell.className = `matrix-cell ${levelClass(rowType,colType)}`;
+      cell.setAttribute('role','cell');
+      cell.setAttribute('aria-label', `${rowType} × ${colType} の相性を見る`);
+      cell.textContent = "●";
+      // クリック時に下の解説へスムーススクロール
+      cell.addEventListener('click', () => {
+        // ハッシュ遷移後にスクロール（少し遅らせる）
+        setTimeout(() => {
+          document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 10);
+      });
+      row.appendChild(cell);
+    });
+    container.appendChild(row);
+  });
+
+  const pairTitle = document.getElementById('pairTitle');
+  const pairMeta = document.getElementById('pairMeta');
+  const analysis = document.getElementById('analysis');
+  const tips = document.getElementById('tips');
+  const shareArea = document.getElementById('shareArea');
+  const twitterShare = document.getElementById('twitterShare');
+
+  // やさしい要約テキスト
+  function dimensionLine(a,b,idx, themeKey){
+    const same = a[idx] === b[idx];
+    if (themeKey==="EI") return same
+      ? `${niceLabel.EI}が似てるから、一緒に過ごすペースを合わせやすいよ。`
+      : `${niceLabel.EI}が違うから、ひとり時間とみんな時間のバランス相談がカギ！`;
+    if (themeKey==="SN") return same
+      ? `${niceLabel.SN}が似てて話が早い。情報の集め方もテンポ合う。`
+      : `${niceLabel.SN}が違うから、事実派とひらめき派で役割分担が◎`;
+    if (themeKey==="TF") return same
+      ? `${niceLabel.TF}が似てて決めるの早い。ただし反対意見のチェック役も置こう。`
+      : `${niceLabel.TF}が違うから、「事実→気持ち」の順で話すとケンカ防止。`;
+    // JP
+    return same
+      ? `${niceLabel.JP}が似てるから、予定の立て方でストレス少なめ。`
+      : `${niceLabel.JP}が違うから、締切は「確定」と「探索」で2本立てにしよ。`;
+  }
+
+  const tagFor = (a,b) => {
+    const m = matchCount(a,b);
+    if (a===b) return "同じタイプ：超スムーズ。だけど同じ弱点も共有しがち。";
+    if (m>=3) return "かなり似てる：安心感つよめ。テンポ合う。";
+    if (m===2) return "半分似てる：バランス良く進めやすい。";
+    return "けっこう違う：ハマると最強。違いが武器！";
+  };
+
+  function microTips(a,b){
+    const tips = [];
+    if (a[0]!==b[0]) tips.push("週の予定に“ひとり時間/みんな時間”を入れておく。");
+    else tips.push("休み方が似てるから、同じリズムでOK。");
+    if (a[1]!==b[1]) tips.push("話し方は「結論→根拠」（事実派）か「仮説→可能性」（ひらめき派）か先に共有。");
+    else tips.push("同じ方向で情報集めできるから、重複に注意して分担。");
+    if (a[2]!==b[2]) tips.push("決めごとは“事実の表”→“気持ちの表”でチェック。");
+    else tips.push("合意が早いぶん、第三者の意見も一回通す。");
+    if (a[3]!==b[3]) tips.push("締切は「ここまでに決める」と「ここまで探す」を分ける。");
+    else tips.push("同じペース。無理しすぎサインだけ決めておこう。");
+    return tips;
+  }
+
+  function renderPair(hash){
+    const m = (hash||"").replace(/^#/, "").toUpperCase();
+    if (!/^[EI][NS][TF][JP]-[EI][NS][TF][JP]$/.test(m)) {
+      pairTitle.textContent = "相性の解説";
+      pairMeta.innerHTML = "<p>上の表やプルダウンからタイプを選んでね。</p>";
+      analysis.innerHTML = "";
+      tips.innerHTML = "";
+      shareArea.style.display = "none";
+      return;
+    }
+    const [A,B] = m.split("-");
+    pairTitle.textContent = `${A} × ${B} の相性`;
+    const tag = tagFor(A,B);
+
+    const dims = [
+      dimensionLine(A,B,0,"EI"),
+      dimensionLine(A,B,1,"SN"),
+      dimensionLine(A,B,2,"TF"),
+      dimensionLine(A,B,3,"JP")
+    ];
+
+    pairMeta.innerHTML = `
+      <div class="pair-chip">${A}</div>
+      <div class="pair-chip">×</div>
+      <div class="pair-chip">${B}</div>
+      <div class="pair-tag">${tag}</div>
+      <div class="pair-score">一致：${matchCount(A,B)}/4</div>
+    `;
+
+    analysis.innerHTML = `
+      <h3>どんな感じ？</h3>
+      <ul class="bullets">
+        ${dims.map(d => `<li>${d}</li>`).join("")}
+      </ul>
+      <p class="disclaimer">※ これはタイプの傾向をゆるっとまとめた目安だよ。人によって違いはあります。</p>
+    `;
+
+    tips.innerHTML = `
+      <h3>うまくいくコツ</h3>
+      <ol class="tips-list">
+        ${microTips(A,B).map(t => `<li>${t}</li>`).join("")}
+      </ol>
+    `;
+
+    // シェア設定（「16 Personalities」で統一）
+    const pageUrl = location.href.split("#")[0] + `#${A}-${B}`;
+    const tweetText = encodeURIComponent(`16 Personalities相性：${A} × ${B} は「${tag}」だったよ！`);
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${encodeURIComponent(pageUrl)}&hashtags=16Personalities,相性`;
+    twitterShare.href = tweetUrl;
+    shareArea.style.display = "block";
+
+    // 表から来ても、ドロップダウンから来ても下へスムーススクロール
+    requestAnimationFrame(() => {
+      document.getElementById('detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  // ハッシュ変化で描画
+  window.addEventListener('hashchange', () => renderPair(location.hash));
+  if (!location.hash) location.hash = "top";
+  renderPair(location.hash);
+})();
+</script>
+</body>
+</html>

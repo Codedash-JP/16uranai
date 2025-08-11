@@ -1,0 +1,194 @@
+/* ===== Light & Pop Theme ===== */
+:root{
+  --bg:#f8fafc;          /* 背景：薄いグレー寄りの白 */
+  --card:#ffffff;        /* カード背景 */
+  --ink:#0f172a;         /* 文字：濃紺に近い黒 */
+  --muted:#64748b;       /* 補助テキスト */
+  --brand:#2563eb;       /* メインアクセント（鮮やかブルー） */
+  --accent:#10b981;      /* セカンダリアクセント（ミント） */
+  --warn:#f59e0b;        /* 注意（オレンジ） */
+  --danger:#ef4444;      /* 強調（レッド） */
+
+  --sim:#22c55e;   /* 類似：グリーン */
+  --bal:#60a5fa;   /* バランス：ライトブルー */
+  --comp:#f472b6;  /* 補完：ピンク */
+}
+
+*{box-sizing:border-box}
+html,body{
+  margin:0;padding:0;
+  background:var(--bg);color:var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+               "Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic", sans-serif;
+  line-height:1.65;
+}
+
+/* Container */
+.container{max-width:1100px;margin:0 auto;padding:24px}
+
+/* Header / Footer */
+.site-header{
+  background: linear-gradient(90deg,#eef2ff, #e6fffa 60%, #ffffff);
+  border-bottom: 1px solid #e5e7eb;
+}
+.site-header h1{margin:0;font-size:30px;letter-spacing:.02em}
+.subtitle{margin:.3rem 0 0;color:var(--muted)}
+
+.site-footer{
+  border-top:1px solid #e5e7eb;margin-top:32px;background:#fff8;
+  backdrop-filter: blur(2px);
+}
+.site-footer .container{padding-top:16px;padding-bottom:24px;color:var(--muted)}
+
+/* Card */
+.card{
+  background:var(--card);
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  padding:20px 22px;
+  margin:18px 0;
+  box-shadow: 0 10px 24px rgba(15,23,42,.06);
+  transition: box-shadow .2s ease, transform .08s ease;
+}
+.card:hover{box-shadow:0 14px 32px rgba(15,23,42,.08)}
+.card h2{margin:.25rem 0 1rem;font-size:22px}
+.card h3{margin:.25rem 0 .75rem;font-size:18px}
+
+/* Picker */
+.picker{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.picker select{
+  background:#ffffff;border:1.5px solid #dbe3f0;border-radius:12px;color:var(--ink);
+  padding:10px 12px;font-size:14px;min-width:120px;
+  box-shadow: inset 0 1px 0 #f1f5f9;
+}
+.picker select:focus{outline:3px solid rgba(37,99,235,.25)}
+.picker .x{opacity:.7}
+.btn{
+  background:var(--brand);color:#ffffff;border:0;border-radius:14px;
+  padding:10px 16px;font-weight:800;cursor:pointer;
+  box-shadow: 0 6px 16px rgba(37,99,235,.25);
+  transition: transform .06s ease, filter .15s ease, box-shadow .15s ease;
+  display:inline-block;
+  text-decoration:none;
+}
+.btn:hover{filter:brightness(1.06);box-shadow:0 8px 18px rgba(37,99,235,.30)}
+.btn:active{transform:translateY(1px)}
+.note{color:var(--muted);font-size:12px;margin-top:8px}
+
+/* Matrix */
+.matrix{
+  overflow:auto;border-radius:14px;border:1px solid #e5e7eb;background:#ffffff;
+}
+.matrix-row{display:grid;grid-template-columns:120px repeat(16,1fr)}
+.matrix-head{position:sticky;top:0;background:#f3f6ff;z-index:1}
+.matrix-head .corner{border-right:1px solid #e5e7eb}
+.matrix-headcell,.matrix-sidehead{
+  padding:8px;border-right:1px solid #eef2f7;border-bottom:1px solid #eef2f7;
+  text-align:center;font-size:12px;color:#2563eb;background:#f8fafc;
+}
+.matrix-sidehead{
+  position:sticky;left:0;z-index:1;background:#f3f6ff;font-weight:700;color:#1f2937
+}
+.matrix-headcell .type,.matrix-sidehead .type{
+  font-weight:800;color:#1e293b;letter-spacing:.01em
+}
+
+.matrix-cell{
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9;
+  text-decoration:none;color:#334155;padding:12px 0;
+  transition:transform .07s ease, background .15s ease, box-shadow .15s ease;
+  font-weight:700;border-radius:8px;
+}
+.matrix-cell:hover{
+  transform:scale(1.04);
+  box-shadow: inset 0 0 0 2px rgba(15,23,42,.05);
+}
+.cell-sim{background: rgba(34,197,94,.18)}   /* 緑み */
+.cell-bal{background: rgba(96,165,250,.20)}  /* 水色 */
+.cell-comp{background: rgba(244,114,182,.20)}/* ピンク */
+
+/* Legend */
+.legend{margin-top:10px;color:var(--muted)}
+.legend summary{
+  cursor:pointer;
+  list-style:none;
+}
+.legend summary::-webkit-details-marker{display:none}
+.chip{
+  display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:6px;vertical-align:middle
+}
+.chip-sim{background:var(--sim)}
+.chip-bal{background:var(--bal)}
+.chip-comp{background:var(--comp)}
+
+/* Pair Meta */
+.pair-meta{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px
+}
+.pair-chip{
+  background:#ffffff;border:1.5px solid #dbe3f0;color:#0f172a;
+  padding:6px 10px;border-radius:999px;font-weight:900;letter-spacing:.02em;
+  box-shadow: 0 2px 0 #eaf0f8;
+}
+.pair-tag{
+  background:linear-gradient(90deg,var(--brand),var(--accent));
+  color:#ffffff;font-weight:900;border-radius:999px;padding:6px 10px;margin-left:6px;
+  box-shadow:0 6px 14px rgba(16,185,129,.25);
+}
+.pair-score{color:var(--muted);margin-left:auto}
+
+/* Lists & misc */
+.bullets, .tips-list{padding-left:1.2rem;margin:.5rem 0}
+.bullets li, .tips-list li{margin:.25rem 0}
+.disclaimer{color:var(--muted);font-size:12px;margin-top:10px}
+
+.backlink{margin-top:16px}
+.backlink a{
+  color:#0f172a;text-decoration:none;font-weight:800;border-bottom:2px solid rgba(37,99,235,.35);
+  padding-bottom:1px;
+}
+.backlink a:hover{border-bottom-color: var(--brand)}
+
+/* Share Button */
+#shareArea{
+  text-align:left;
+}
+#twitterShare{
+  background:#1DA1F2;
+  color:#fff;
+  font-weight:800;
+  border-radius:14px;
+  padding:10px 18px;
+  box-shadow:0 6px 16px rgba(29,155,240,.25);
+  text-decoration:none;
+  display:inline-block;
+}
+#twitterShare:hover{
+  filter:brightness(1.06);
+  box-shadow:0 8px 18px rgba(29,155,240,.35);
+}
+#twitterShare:active{
+  transform:translateY(1px);
+}
+
+/* Subtle motion */
+@media (prefers-reduced-motion:no-preference){
+  .matrix-cell, .card, .btn, #twitterShare{transition: all .15s ease}
+}
+
+/* Responsive */
+@media (max-width:900px){
+  .matrix-row{grid-template-columns:72px repeat(16,1fr)}
+  .matrix-headcell,.matrix-sidehead{font-size:11px;padding:6px}
+  .matrix-cell{padding:10px 0}
+}
+
+/* Dark mode optional */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b0c10; --card:#12141b; --ink:#f5f7fa; --muted:#c6c9d3;
+    --brand:#6aa8ff; --accent:#6ef0b1;
+    --sim:#1f8a70; --bal:#3b5bdb; --comp:#b62d65;
+  }
+}
