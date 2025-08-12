@@ -1,18 +1,30 @@
 ---
+export async function getStaticPaths() {
+  // 16タイプを列挙（日本語版も同じスラッグ）
+  const slugs = [
+    "intj","intp","entj","entp",
+    "infj","infp","enfj","enfp",
+    "istj","istp","estj","estp",
+    "isfj","isfp","esfj","esfp",
+  ];
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
 const { slug } = Astro.params;
 ---
+
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>JA Personality: {slug}</title>
+    <title>{slug.toUpperCase()} – 16 Personalities（日本語）</title>
     <link rel="icon" href="/favicon.svg" />
     <link rel="stylesheet" href="/src/styles/theme.css" />
   </head>
   <body>
     <div class="container">
       <h1 style="text-transform:uppercase">{slug}</h1>
-      <p>This is a placeholder page for {slug}. Write your content here.</p>
-      <a class="btn" href="/ja/">Back</a>
+      <p><strong>{slug.toUpperCase()}</strong> のプレースホルダーページです。本文をここに書いてください。</p>
+      <a class="btn" href="/ja/">日本語トップに戻る</a>
     </div>
   </body>
 </html>
