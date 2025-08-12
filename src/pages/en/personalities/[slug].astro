@@ -1,18 +1,30 @@
 ---
+export async function getStaticPaths() {
+  // 16タイプを列挙（英語版）
+  const slugs = [
+    "intj","intp","entj","entp",
+    "infj","infp","enfj","enfp",
+    "istj","istp","estj","estp",
+    "isfj","isfp","esfj","esfp",
+  ];
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
 const { slug } = Astro.params;
 ---
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>EN Personality: {slug}</title>
+    <title>{slug.toUpperCase()} – 16 Personalities (EN)</title>
     <link rel="icon" href="/favicon.svg" />
     <link rel="stylesheet" href="/src/styles/theme.css" />
   </head>
   <body>
     <div class="container">
       <h1 style="text-transform:uppercase">{slug}</h1>
-      <p>This is a placeholder page for {slug}. Write your content here.</p>
-      <a class="btn" href="/en/">Back</a>
+      <p>This is a placeholder page for <strong>{slug.toUpperCase()}</strong>. Write your content here.</p>
+      <a class="btn" href="/en/">Back to EN top</a>
     </div>
   </body>
 </html>
