@@ -1,7 +1,0 @@
----
-const { title, url } = Astro.props;
-const shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
----
-<a href={shareUrl} target="_blank" rel="noopener noreferrer" class="share-btn">
-  Share on X
-</a>
