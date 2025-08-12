@@ -1,0 +1,30 @@
+---
+import SocialShareX from "../../components/SocialShareX.astro";
+import AffiliateLink from "../../components/AffiliateLink.astro";
+
+const personalities = [
+  { slug: "intj", name: "INTJ - The Mastermind" },
+  { slug: "infp", name: "INFP - The Mediator" },
+  // ...省略（全16タイプ）
+];
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>16 Personalities - EN</title>
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+  </head>
+  <body>
+    <h1>16 Personalities</h1>
+    <div class="grid">
+      {personalities.map(p => (
+        <a href={`/en/personalities/${p.slug}`} class="card">{p.name}</a>
+      ))}
+    </div>
+
+    <h2>Recommended Book</h2>
+    <AffiliateLink href="https://example.com/book" label="Learn More" />
+
+    <SocialShareX title="Check out the 16 Personalities!" url="https://yoursite.com/en" />
+  </body>
+</html>
