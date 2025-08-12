@@ -1,0 +1,18 @@
+---
+const { slug } = Astro.params;
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>EN Personality: {slug}</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="text-transform:uppercase">{slug}</h1>
+      <p>This is a placeholder page for {slug}. Write your content here.</p>
+      <a class="btn" href="/en/">Back</a>
+    </div>
+  </body>
+</html>

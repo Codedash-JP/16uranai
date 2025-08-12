@@ -1,0 +1,29 @@
+:root{
+  --main:#ffb6c1;
+  --bg:#fffafc;
+  --txt:#333;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", Helvetica, Arial, sans-serif;
+  background:var(--bg); color:var(--txt);
+  margin:0; padding:24px;
+}
+a{color:inherit; text-decoration:none}
+h1,h2{ text-align:center; color:var(--main); margin:0 0 16px }
+.container{ max-width:1040px; margin:0 auto }
+.grid{
+  display:grid; gap:12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin:24px 0;
+}
+.card, .btn{
+  display:block; padding:14px; background:#fff; border-radius:var(--radius);
+  box-shadow:0 4px 16px rgba(0,0,0,.08); text-align:center;
+  transition: transform .08s ease, background .2s ease, color .2s ease;
+}
+.card:hover, .btn:hover{ transform: translateY(-2px); background:var(--main); color:#fff }
+.stack{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap }
+.badge{ display:inline-block; padding:.25rem .6rem; border-radius:999px; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.05) }
+.footer{ margin-top:48px; text-align:center; font-size:.9rem; opacity:.7 }

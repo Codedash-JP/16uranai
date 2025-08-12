@@ -1,0 +1,43 @@
+---
+import SocialShareX from "../../components/SocialShareX.astro";
+import AffiliateLink from "../../components/AffiliateLink.astro";
+const personalities = [
+  { slug: "intj", name: "INTJ – The Mastermind" },
+  { slug: "infp", name: "INFP – The Mediator" },
+  { slug: "entp", name: "ENTP – The Debater" },
+  { slug: "isfj", name: "ISFJ – The Defender" },
+  // add the rest as needed
+];
+const siteUrl = 'https://YOUR_USER.github.io/16p-astro/en';
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>16 Personalities (EN)</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>16 Personalities</h1>
+      <p style="text-align:center">Click a type to read a simple explanation.</p>
+      <div class="grid">
+        {personalities.map(p => (
+          <a href={`/en/personalities/${p.slug}`} class="card">{p.name}</a>
+        ))}
+      </div>
+
+      <div class="stack" style="margin:24px 0">
+        <AffiliateLink href="https://example.com/book?affid=YOUR_ID&utm_source=site&utm_medium=link&utm_campaign=16p" label="Recommended Book" />
+        <SocialShareX title="Check out the 16 Personalities!" url={siteUrl} tags={['personality','mbti']} />
+      </div>
+
+      <div class="footer">
+        <span class="badge">EN</span> · <a href="/ja/">日本語へ</a>
+      </div>
+    </div>
+    <script>
+      localStorage.setItem('lang','en');
+    </script>
+  </body>
+</html>

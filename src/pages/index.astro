@@ -1,0 +1,29 @@
+---
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>16 Personalities</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Redirecting…</h1>
+      <p style="text-align:center">Detecting your language (EN/JA)…</p>
+    </div>
+    <script>
+      try {
+        const stored = localStorage.getItem('lang');
+        let lang = stored || (navigator.language || '').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+        // force only en/ja
+        if (lang !== 'ja' && lang !== 'en') lang = 'en';
+        window.location.replace(`/${lang}/`);
+      } catch(e) {
+        window.location.replace('/en/');
+      }
+    </script>
+    <noscript><meta http-equiv="refresh" content="0; url=/en/"></noscript>
+  </body>
+</html>

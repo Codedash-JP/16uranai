@@ -1,0 +1,43 @@
+---
+import SocialShareX from "../../components/SocialShareX.astro";
+import AffiliateLink from "../../components/AffiliateLink.astro";
+const personalities = [
+  { slug: "intj", name: "INTJ – 建築家タイプ" },
+  { slug: "infp", name: "INFP – 仲介者タイプ" },
+  { slug: "entp", name: "ENTP – 討論者タイプ" },
+  { slug: "isfj", name: "ISFJ – 擁護者タイプ" },
+  // 以降は必要に応じて追加
+];
+const siteUrl = 'https://YOUR_USER.github.io/16p-astro/ja';
+---
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>16 Personalities（日本語）</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>16 Personalities</h1>
+      <p style="text-align:center">各タイプの簡単な説明に進めます。</p>
+      <div class="grid">
+        {personalities.map(p => (
+          <a href={`/ja/personalities/${p.slug}`} class="card">{p.name}</a>
+        ))}
+      </div>
+
+      <div class="stack" style="margin:24px 0">
+        <AffiliateLink href="https://example.com/book?affid=YOUR_ID&utm_source=site&utm_medium=link&utm_campaign=16p" label="おすすめ書籍" />
+        <SocialShareX title="16パーソナリティをチェック！" url={siteUrl} tags={['personality','mbti']} />
+      </div>
+
+      <div class="footer">
+        <span class="badge">JA</span> · <a href="/en/">English</a>
+      </div>
+    </div>
+    <script>
+      localStorage.setItem('lang','ja');
+    </script>
+  </body>
+</html>
